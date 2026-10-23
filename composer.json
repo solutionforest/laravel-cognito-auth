@@ -1,6 +1,6 @@
 {
     "name": "black-bits/laravel-cognito-auth",
-    "description": "An auth provider for Laravel for AWS Cognito.",
+    "description": "An auth provider for Laravel for AWS Cognito (Solution Forest fork: Laravel 10-13, PHP 8.1-8.5).",
     "keywords": [
         "BlackBits",
         "AWS Cognito",
@@ -29,16 +29,17 @@
         }
     ],
     "require": {
-        "php": "^7.1|^8.0",
-        "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|9.*|^10.0",
-        "illuminate/config": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|9.*|^10.0",
-        "illuminate/auth": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|9.*|^10.0",
-        "illuminate/http": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|6.*|7.*|8.*|9.*|^10.0",
-        "aws/aws-sdk-php": "^3.61"
+        "php": "^8.1",
+        "aws/aws-sdk-php": "^3.300",
+        "illuminate/auth": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/config": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "larapack/dd": "^1.0",
-        "phpunit/phpunit": "^7.0|^9.5.10"
+        "laravel/ui": "^4.2",
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.5|^11.5|^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -51,8 +52,7 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+        "test": "vendor/bin/phpunit"
     },
     "config": {
         "sort-packages": true
@@ -63,5 +63,8 @@
                 "BlackBits\\LaravelCognitoAuth\\CognitoAuthServiceProvider"
             ]
         }
+    },
+    "suggest": {
+        "laravel/ui": "Provides the Illuminate\\Foundation\\Auth controller traits extended by src/Auth/*"
     }
 }

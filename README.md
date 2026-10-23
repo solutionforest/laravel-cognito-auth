@@ -1,3 +1,14 @@
+> **Solution Forest fork.** Maintained for Laravel 10 – 13 and PHP 8.1 – 8.5. Install with a VCS repository:
+>
+> ```json
+> "repositories": [{ "type": "vcs", "url": "https://github.com/solutionforest/laravel-cognito-auth.git" }],
+> "require": { "black-bits/laravel-cognito-auth": "^0.1.18" }
+> ```
+>
+> Set `'register_routes' => false` in `config/cognito.php` if your app does not provide the
+> `Auth\ResetPasswordController` / `Auth\VerificationController` used by the package routes.
+> See [CHANGELOG.md](CHANGELOG.md).
+
 # Laravel Package to easily manage authentication with AWS Cognito
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/black-bits/laravel-cognito-auth.svg?style=flat-square)](https://packagist.org/packages/black-bits/laravel-cognito-auth)
