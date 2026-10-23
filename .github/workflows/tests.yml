@@ -1,0 +1,43 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { laravel: '10', testbench: '^8.0', php: '8.3' }
+          - { laravel: '11', testbench: '^9.0', php: '8.3' }
+          - { laravel: '11', testbench: '^9.0', php: '8.4' }
+          - { laravel: '12', testbench: '^10.0', php: '8.3' }
+          - { laravel: '12', testbench: '^10.0', php: '8.4' }
+          - { laravel: '12', testbench: '^10.0', php: '8.5' }
+          - { laravel: '13', testbench: '^11.0', php: '8.3' }
+          - { laravel: '13', testbench: '^11.0', php: '8.4' }
+          - { laravel: '13', testbench: '^11.0', php: '8.5' }
+    name: Laravel ${{ matrix.laravel }} / PHP ${{ matrix.php }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, json, mbstring, openssl, pdo_sqlite
+          coverage: none
+
+      # Laravel 10/11 are end of life and have open security advisories, which Composer blocks by default.
+      - name: Allow end-of-life Laravel releases
+        if: matrix.laravel == '10' || matrix.laravel == '11'
+        run: composer config policy.advisories.block false
+
+      - name: Install dependencies
+        run: composer update --with "orchestra/testbench:${{ matrix.testbench }}" --with-all-dependencies --prefer-dist --no-interaction --no-progress
+
+      - name: Run tests
+        run: vendor/bin/phpunit

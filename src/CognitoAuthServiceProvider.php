@@ -53,14 +53,19 @@ class CognitoAuthServiceProvider extends ServiceProvider
                 $app['request']
             );
 
-            $guard->setCookieJar($this->app['cookie']);
-            $guard->setDispatcher($this->app['events']);
-            $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
+            // Laravel 13 binds extend() callbacks to the AuthManager, so use $app instead of $this->app.
+            $guard->setCookieJar($app['cookie']);
+            $guard->setDispatcher($app['events']);
+            $guard->setRequest($app->refresh('request', $guard, 'setRequest'));
 
             return $guard;
         });
 
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        // The routes point at app controllers (ResetPasswordController, VerificationController);
+        // apps without them can turn the routes off with cognito.register_routes = false.
+        if (config('cognito.register_routes', true)) {
+            $this->loadRoutesFrom(__DIR__.'/routes.php');
+        }
         $this->loadViewsFrom(__DIR__.'/Resources/views', 'black-bits/laravel-cognito-auth');
         $this->loadTranslationsFrom(__DIR__.'/Resources/lang', 'black-bits/laravel-cognito-auth');
     }
